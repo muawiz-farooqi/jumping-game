@@ -72,7 +72,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 game.addEventListener("click", () => {
-    jump();
+    if (isGameOver) {
+        restartGame();
+    } else {
+        jump();
+    }
 });
 
 gameLoop();
@@ -114,7 +118,7 @@ function gameOver() {
     }
 
     gameOverMessage.textContent =
-        `Game Over! Score: ${score} | Best: ${bestScore} | Press Space to restart`;
+        `Game Over! Score: ${score} | Best: ${bestScore} | Press Space or tap to restart`;
     game.appendChild(gameOverMessage);
 }
 
