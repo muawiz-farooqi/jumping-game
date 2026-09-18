@@ -1,10 +1,14 @@
 const game = document.querySelector("#game");
 const cat = document.querySelector("#cat");
 const obstacle = document.querySelector("#obstacle");
+const scoreDisplay = document.querySelector("#score");
 
 const gameOverMessage = document.createElement("p");
 gameOverMessage.textContent = "Game Over! Press Space to restart";
 gameOverMessage.classList.add("game-over");
+
+let score = 0;
+let bestScore = Number(localStorage.getItem("bestScore")) || 0;
 
 let obstacleX = game.clientWidth;
 const obstacleSpeed = 3.5;
@@ -21,10 +25,10 @@ const minGap = 100;
 const maxGap = 350;
 
 function jump() {
-   if (isJumping) return; 
+    if (isJumping) return;
 
-   isJumping = true;
-   velocityY = jumpForce;
+    isJumping = true;
+    velocityY = jumpForce;
 }
 
 function updateJump() {
@@ -60,7 +64,7 @@ document.addEventListener("keydown", (event) => {
         } else {
             jump();
         }
-    } 
+    }
 });
 
 game.addEventListener("click", () => {
@@ -78,11 +82,11 @@ function updateObstacle() {
     obstacle.style.left = `${obstacleX}px`;
 
     if (obstacleX < -obstacle.offsetWidth) {
+        updateScore();
         obstacleX = game.clientWidth + getRandomGap();
     }
 }
 
-// 3. Check overlap between #cat and #obstacle bounding boxes each frame -> game over if they collide mid-floor
 function checkCollision() {
     const catRect = cat.getBoundingClientRect();
     const obstacleRect = obstacle.getBoundingClientRect();
@@ -100,6 +104,14 @@ function checkCollision() {
 function gameOver() {
     isGameOver = true;
     game.appendChild(gameOverMessage);
+    if (score > bestScore) {
+        bestScore = score;
+        localStorage.setItem("bestScore", bestScore);
+    }
+
+    gameOverMessage.textContent =
+        `Game Over! Score: ${score} | Best: ${bestScore} | Press Space to restart`;
+    game.appendChild(gameOverMessage);
 }
 
 function restartGame() {
@@ -108,12 +120,20 @@ function restartGame() {
     positionY = 0;
     velocityY = 0;
     obstacleX = game.clientWidth + getRandomGap();
+
+    score = 0;
+    scoreDisplay.textContent = score;
+
     cat.style.transform = `translateY(${positionY}px)`;
     obstacle.style.left = `${obstacleX}px`;
+
     gameOverMessage.remove();
 
     gameLoop();
 }
 
 // 4. Increment #score while the game runs, save best score
-
+function updateScore() {
+    score += 1;
+    scoreDisplay.textContent = score;
+}
