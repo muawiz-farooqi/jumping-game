@@ -129,7 +129,7 @@ body {
 
 .obstacle {
     position: absolute;
-    right: 90px;
+    left: 0;
     bottom: 70px;
     width: 34px;
     height: 46px;

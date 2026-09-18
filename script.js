@@ -1,12 +1,20 @@
 const game = document.querySelector("#game");
 const cat = document.querySelector("#cat");
 
+const obstacle = document.querySelector("#obstacle");
+
+let obstacleX = game.clientWidth;
+const obstacleSpeed = 3.5;
+
 let isJumping = false;
 let positionY = 0;
 let velocityY = 0;
 
 const gravity = 0.5;
 const jumpForce = -12;
+
+const minGap = 100;
+const maxGap = 350;
 
 function jump() {
    if (isJumping) return; 
@@ -31,6 +39,7 @@ function updateJump() {
 }
 
 function gameLoop() {
+    updateObstacle();
     updateJump();
 
     requestAnimationFrame(gameLoop);
@@ -49,8 +58,18 @@ game.addEventListener("click", () => {
 
 gameLoop();
 
-// 2. Move #obstacle from right to left on a loop (setInterval or requestAnimationFrame), resetting it off-screen
+function getRandomGap() {
+    return Math.random() * (maxGap - minGap) + minGap;
+}
 
+function updateObstacle() {
+    obstacleX -= obstacleSpeed;
+    obstacle.style.left = `${obstacleX}px`;
+
+    if (obstacleX < -obstacle.offsetWidth) {
+        obstacleX = game.clientWidth + getRandomGap();
+    }
+}
 
 // 3. Check overlap between #cat and #obstacle bounding boxes each frame -> game over if they collide mid-floor
 
