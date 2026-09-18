@@ -53,7 +53,9 @@ function gameLoop() {
     updateJump();
     checkCollision();
 
-    requestAnimationFrame(gameLoop);
+    if (!isGameOver) {
+        requestAnimationFrame(gameLoop);
+    }
 }
 
 document.addEventListener("keydown", (event) => {
