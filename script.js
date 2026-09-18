@@ -11,7 +11,9 @@ let score = 0;
 let bestScore = Number(localStorage.getItem("bestScore")) || 0;
 
 let obstacleX = game.clientWidth;
-const obstacleSpeed = 3.5;
+let obstacleSpeed = 3.5;
+const initialObstacleSpeed = 3.5;
+const maxObstacleSpeed = 7;
 
 let isJumping = false;
 let positionY = 0;
@@ -121,7 +123,9 @@ function restartGame() {
     isJumping = false;
     positionY = 0;
     velocityY = 0;
+    obstacleSpeed = initialObstacleSpeed;
     obstacleX = game.clientWidth + getRandomGap();
+    
 
     score = 0;
     scoreDisplay.textContent = score;
@@ -134,8 +138,10 @@ function restartGame() {
     gameLoop();
 }
 
-// 4. Increment #score while the game runs, save best score
 function updateScore() {
     score += 1;
     scoreDisplay.textContent = score;
+    if (score % 5 === 0 && obstacleSpeed < maxObstacleSpeed) {
+        obstacleSpeed += 0.5;
+    }
 }
