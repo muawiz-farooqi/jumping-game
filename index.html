@@ -8,6 +8,42 @@
         <script src="script.js" defer></script>
     </head>
     <body>
+        <main class="scene">
+            <h1 class="title">Roomba Cat</h1>
 
+            <div class="game" id="game">
+                <div class="wall"></div>
+
+                <div class="floor"></div>
+
+                <div class="cat" id="cat">
+                    <svg viewBox="0 0 70 66" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse class="roomba__base" cx="32" cy="53" rx="26" ry="13" />
+                        <ellipse class="roomba__rim" cx="32" cy="44" rx="22" ry="9" />
+                        <circle class="roomba__light" cx="14" cy="44" r="2.4" />
+                        <path
+                            class="cat__tail"
+                            d="M14 42 Q 0 42 2 24 Q 3 13 13 12"
+                            fill="none"
+                            stroke-width="7"
+                            stroke-linecap="round"
+                        />
+                        <ellipse class="cat__body" cx="32" cy="39" rx="20" ry="11" />
+                        <circle class="cat__head" cx="50" cy="22" r="14" />
+                        <polygon class="cat__ear" points="39,13 43,1 48,13" />
+                        <polygon class="cat__ear" points="52,13 57,0 61,13" />
+                        <circle class="cat__eye" cx="46" cy="20" r="2" />
+                        <circle class="cat__eye" cx="54" cy="20" r="2" />
+                        <circle class="cat__nose" cx="50" cy="25" r="1.6" />
+                    </svg>
+                </div>
+
+                <div class="obstacle" id="obstacle"></div>
+
+                <p class="score" id="score">0</p>
+            </div>
+
+            <p class="instructions">Press space to jump (coming soon)</p>
+        </main>
     </body>
 </html>
