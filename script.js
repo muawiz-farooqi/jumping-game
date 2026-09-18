@@ -111,7 +111,6 @@ function checkCollision() {
 
 function gameOver() {
     isGameOver = true;
-    game.appendChild(gameOverMessage);
     if (score > bestScore) {
         bestScore = score;
         localStorage.setItem("bestScore", bestScore);
