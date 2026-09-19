@@ -34,11 +34,16 @@
                         <polygon class="cat__ear" points="52,13 57,0 61,13" />
                         <circle class="cat__eye" cx="46" cy="20" r="2" />
                         <circle class="cat__eye" cx="54" cy="20" r="2" />
+                        <!-- shown instead of the eyes when the cat is dead -->
+                        <g class="cat__x" fill="none" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M43.5 17.5 L48.5 22.5 M48.5 17.5 L43.5 22.5" />
+                            <path d="M51.5 17.5 L56.5 22.5 M56.5 17.5 L51.5 22.5" />
+                        </g>
                         <circle class="cat__nose" cx="50" cy="25" r="1.6" />
                     </svg>
                 </div>
 
-                <div class="obstacle" id="obstacle"></div>
+                <div class="obstacle obstacle--plant" id="obstacle"></div>
 
                 <p class="score" id="score">0</p>
             </div>
