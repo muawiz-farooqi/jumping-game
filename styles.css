@@ -13,6 +13,15 @@
     --roomba-body: #1c1a18;
     --roomba-rim: #333029;
     --roomba-light: #6fb3a8;
+    --roomba-light-dead: #d64545;
+    --lamp-metal: #4a3f35;
+    --lamp-shade: #d4a24c;
+    --box: #c8975a;
+    --box-edge: #9c7038;
+    --box-tape: #e6cf9c;
+    --basket: #5f7f96;
+    --basket-edge: #48657a;
+    --clothes: #d98f8f;
 }
 
 * {
@@ -127,17 +136,50 @@ body {
     fill: var(--cat-pink);
 }
 
+/* X eyes are hidden until the cat dies */
+.cat__x {
+    display: none;
+    stroke: var(--ink);
+}
+
+.cat.dead .cat__eye {
+    display: none;
+}
+
+.cat.dead .cat__x {
+    display: block;
+}
+
+.cat.dead .roomba__light {
+    fill: var(--roomba-light-dead);
+}
+
+.cat.dead svg {
+    transform: rotate(-6deg);
+    transform-origin: 50% 100%;
+}
+
 .obstacle {
     position: absolute;
-    right: 90px;
+    left: 0;
     bottom: 70px;
+}
+
+.obstacle::before,
+.obstacle::after {
+    content: "";
+    position: absolute;
+}
+
+/* Sizes here must match the hitboxes in obstacleTypes (script.js) */
+
+/* plant: medium height, medium width */
+.obstacle--plant {
     width: 34px;
     height: 46px;
 }
 
-.obstacle::before {
-    content: "";
-    position: absolute;
+.obstacle--plant::before {
     bottom: 0;
     left: 4px;
     width: 26px;
@@ -146,15 +188,103 @@ body {
     border-radius: 4px 4px 8px 8px;
 }
 
-.obstacle::after {
-    content: "";
-    position: absolute;
+.obstacle--plant::after {
     bottom: 18px;
     left: 7px;
     width: 20px;
     height: 30px;
     background: var(--plant-leaf);
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+/* floor lamp: tall and thin */
+.obstacle--lamp {
+    width: 24px;
+    height: 72px;
+}
+
+.obstacle--lamp::before {
+    bottom: 0;
+    left: 0;
+    width: 24px;
+    height: 54px;
+    background:
+        linear-gradient(var(--lamp-metal), var(--lamp-metal)) center bottom /
+            18px 5px no-repeat,
+        linear-gradient(var(--lamp-metal), var(--lamp-metal)) center bottom /
+            4px 100% no-repeat;
+    border-radius: 2px;
+}
+
+.obstacle--lamp::after {
+    bottom: 50px;
+    left: 0;
+    width: 24px;
+    height: 22px;
+    background: var(--lamp-shade);
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+}
+
+/* cardboard box: low and wide */
+.obstacle--box {
+    width: 54px;
+    height: 29px;
+}
+
+.obstacle--box::before {
+    inset: 0;
+    background: var(--box);
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 2px var(--box-edge);
+}
+
+.obstacle--box::after {
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: var(--box-tape);
+    opacity: 0.85;
+}
+
+/* laundry basket: chunky, medium-tall */
+.obstacle--basket {
+    width: 42px;
+    height: 48px;
+}
+
+.obstacle--basket::before {
+    bottom: 0;
+    left: 0;
+    width: 42px;
+    height: 32px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--basket) 0px,
+        var(--basket) 6px,
+        var(--basket-edge) 6px,
+        var(--basket-edge) 8px
+    );
+    clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
+}
+
+.obstacle--basket::after {
+    bottom: 28px;
+    left: 6px;
+    width: 30px;
+    height: 20px;
+    background: var(--clothes);
+    border-radius: 50% 50% 30% 30%;
+}
+
+/* debug overlay, toggled with the H key */
+.hitbox {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    border: 1px solid #e63946;
+    background: rgba(230, 57, 70, 0.18);
 }
 
 .score {
@@ -174,4 +304,26 @@ body {
     margin: 0;
     font-size: 0.9rem;
     color: #6b6459;
+}
+
+.game-over {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: 10;
+
+    width: max-content;
+    max-width: 90%;
+    text-align: center;
+    white-space: pre-line;
+    text-wrap: balance;
+    font-size: 1.1rem;
+    line-height: 1.35;
+    font-weight: bold;
+    color: var(--ink);
+    background: rgba(247, 242, 231, 0.9);
+    padding: 8px 16px;
+    border-radius: 8px;
 }
